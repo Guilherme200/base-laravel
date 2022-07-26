@@ -16,6 +16,10 @@ handle_command() {
     clean_environment
   fi
 
+  if [[ $1 == "test" ]]; then
+      test_environment
+    fi
+
   print_manual
 }
 
@@ -53,6 +57,13 @@ clean_environment() {
   echo -e "[\e[33mWAIT\e[39m] Cleaning environment"
   docker-compose down --remove-orphans
   echo -e "[\e[32mOK\e[39m] Environment cleaned"
+  exit
+}
+
+test_environment() {
+  echo -e "[\e[33mWAIT\e[39m] Testing environment"
+  docker-compose exec app ./vendor/bin/phpunit
+  echo -e "[\e[32mOK\e[39m] Environment tested"
   exit
 }
 
